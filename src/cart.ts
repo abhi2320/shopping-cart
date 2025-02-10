@@ -11,28 +11,39 @@ export class ShoppingCart {
 
     /**
      * Adds a product to the cart.
-     * If the product already exists, it updates the quantity.
      * @param name - The name of the product.
      * @param quantity - The quantity to add.
      */
     async addProduct(name: string, quantity: number): Promise<void> {
-        const price = await ProductService.getProductPrice(name);
-        const existingItem = this.items.find(item => item.name === name);
-        
-        if (existingItem) {
-            existingItem.quantity += quantity;
-        } else {
-            this.items.push({ name, quantity, price });
+        if (quantity <= 0) {
+            console.warn(`Ignoring invalid quantity: ${quantity} for ${name}`);
+            return; // Ignore invalid quantity
+        }
+
+        try {
+            const price = await ProductService.getProductPrice(name);
+            const existingItem = this.items.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                this.items.push({ name, quantity, price });
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                throw new Error(`Failed to add product: ${error.message}`);
+            } else {
+                throw new Error(`Failed to add product: Unknown error`);
+            }
         }
     }
 
     /**
      * Calculates the subtotal, tax, and total payable amount.
-     * @returns { subtotal: number, tax: number, total: number }
      */
-    calculateTotals() {
+    private calculateTotals() {
         const subtotal = this.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        const tax = Math.round(subtotal * 0.125 * 100) / 100; // Tax at 12.5%
+        const tax = Math.round(subtotal * 0.125 * 100) / 100;
         const total = Math.round((subtotal + tax) * 100) / 100;
 
         return { subtotal, tax, total };
@@ -40,7 +51,6 @@ export class ShoppingCart {
 
     /**
      * Retrieves the current state of the cart.
-     * @returns { items: CartItem[], totals: { subtotal: number, tax: number, total: number } }
      */
     getCartState() {
         return {
