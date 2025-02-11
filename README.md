@@ -13,9 +13,9 @@ This is a **TypeScript-based shopping cart** that allows users to add products, 
 
 ---
 
-## 📦 Setup & Installation
+##  Setup & Installation
 
-### 1️⃣ Clone the repository:
+### Clone the repository:
 
 git clone https://github.com/abhi2320/shopping-cart.git
 cd shopping-cart
