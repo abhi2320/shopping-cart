@@ -4,7 +4,7 @@ This is a **TypeScript-based shopping cart** that allows users to add products, 
 
 ---
 
-## 🚀 Features
+## Features
 - **Add products to the cart**
 - **Retrieve product prices dynamically from an API**
 - **Calculate subtotal, tax (12.5%), and total**
@@ -16,7 +16,7 @@ This is a **TypeScript-based shopping cart** that allows users to add products, 
 ## 📦 Setup & Installation
 
 ### 1️⃣ Clone the repository:
-```sh
+
 git clone https://github.com/abhi2320/shopping-cart.git
 cd shopping-cart
 
